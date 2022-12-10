@@ -1,0 +1,25 @@
+import { Interaction, InteractionType, ButtonInteraction } from "discord.js";
+import { sharedClient } from "..";
+
+export default {
+  name: "interactionCreate",
+  callback: async (interaction: Interaction) => {
+    const emojis = (await import("../")).sharedClient.emojis;
+    if (emojis.size === 0)
+      (await import("../")).sharedClient.resetEmojis(interaction.guild!);
+
+    switch (interaction.type) {
+      case InteractionType.ApplicationCommand:
+        sharedClient.commands
+          .get(interaction.commandName)
+          ?.callback(interaction);
+
+      case InteractionType.MessageComponent:
+        sharedClient.buttons
+          .get((interaction as ButtonInteraction).customId)
+          ?.callback(interaction);
+      default:
+        break;
+    }
+  },
+};
