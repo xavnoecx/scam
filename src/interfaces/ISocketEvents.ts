@@ -32,9 +32,9 @@ export interface IUserInfo {
 }
 
 export interface ICaptcha {
-  captcha_key?: string[];
-  captcha_sitekey?: string;
-  captcha_service?: string;
-  captcha_rqdata?: string;
-  captcha_rqtoken?: string;
+  captcha_key: string[];
+  captcha_sitekey: string;
+  captcha_service: string;
+  captcha_rqdata: string;
+  captcha_rqtoken: string;
 }

