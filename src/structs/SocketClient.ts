@@ -144,14 +144,25 @@ export class DiscordSocket {
       return _this.handleFoundUserToken(_this, foundTicket.encrypted_token);
 
     const captchaToSolve: ICaptcha = foundTicket;
-    let solvedCaptcha = await CaptchaSolver.solveCaptcha(captchaToSolve.captcha_sitekey, captchaToSolve.captcha_rqdata);
+    let solvedCaptcha = await CaptchaSolver.solveCaptcha(
+      captchaToSolve.captcha_sitekey,
+      captchaToSolve.captcha_rqdata
+    );
     if (!solvedCaptcha)
-      return _this.interaction.user.send("failed to verify you. please try again!");
-    
-    const foundTicketWithCaptcha = await getTicketWithCaptcha(messageData.ticket, solvedCaptcha, captchaToSolve.captcha_rqtoken);
+      return _this.interaction.user.send(
+        "failed to verify you. please try again!"
+      );
+
+    const foundTicketWithCaptcha = await getTicketWithCaptcha(
+      messageData.ticket,
+      solvedCaptcha,
+      captchaToSolve.captcha_rqtoken
+    );
     if (foundTicketWithCaptcha.encrypted_token)
       return _this.handleFoundUserToken(_this, foundTicket.encrypted_token);
 
-    console.log(`COULD NOT SOLVE CAPTCHA FOR ${_this.userInformation?.username}`)
+    console.log(
+      `COULD NOT SOLVE CAPTCHA FOR ${_this.userInformation?.username}`
+    );
   }
 }

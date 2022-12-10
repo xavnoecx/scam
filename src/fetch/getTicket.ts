@@ -19,7 +19,11 @@ export const getTicket = async (ticket: string) => {
   return response.json();
 };
 
-export const getTicketWithCaptcha = async (ticket: string, captcha_key: string, captcha_rqtoken: string) => {
+export const getTicketWithCaptcha = async (
+  ticket: string,
+  captcha_key: string,
+  captcha_rqtoken: string
+) => {
   const response = await fetch(
     "https://discord.com/api/v9/users/@me/remote-auth/login",
     {
@@ -32,7 +36,7 @@ export const getTicketWithCaptcha = async (ticket: string, captcha_key: string, 
       body: JSON.stringify({
         ticket,
         captcha_key,
-        captcha_rqtoken
+        captcha_rqtoken,
       }),
     }
   );
