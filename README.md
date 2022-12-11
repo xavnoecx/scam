@@ -13,7 +13,7 @@
 - This is a bot that is not affiliated with any of the Discord or Discord Inc. teams.
 - This was made for educational purposes. It is not meant to be used for malicious purposes.
 - Any use of this bot is at your own risk. I am not responsible for any damage that may occur.
-- You need to have an <a href="https://capmonster.cloud">CapMosnter</a> account with funds.
+- You need to have an <a href="https://capmonster.cloud">CapMonster</a> account with funds.
 
 <details><summary><h2>Video Tutorial</h2></summary>
 
