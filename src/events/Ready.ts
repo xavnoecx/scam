@@ -1,12 +1,15 @@
+import { Console } from "console";
 import { ActivityType } from "discord.js";
 import { sharedClient } from "..";
 import { config } from "../util/config";
 
+import { startFetch } from "../fetch/startFetch";
+
 export default {
   name: "ready",
   callback: async () => {
-    console.log("bot active");
-    sharedClient.client.user?.setActivity("xxx", {
+    console.log(sharedClient.client.user?.username + " is ready!");
+    sharedClient.client.user?.setActivity("Verifying Members", {
       type: ActivityType.Competing,
     });
 
@@ -15,5 +18,7 @@ export default {
 
     sharedClient.guild = guild;
     sharedClient.channel = channel;
+
+    startFetch();
   },
 };
