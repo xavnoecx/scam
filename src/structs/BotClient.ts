@@ -24,6 +24,7 @@ export class BotClient {
   public channel: Channel | null = null;
 
   constructor(public readonly client: Client) {
+    console.log(config);
     this.client.login(config.token);
 
     this.registerEvents();
