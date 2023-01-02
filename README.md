@@ -26,7 +26,7 @@
 - **Install [Node LTS](https://nodejs.org/en/)**
   - optionially install yarn package manager for ease of use. `npm install -g yarn`
 - **Clone the repository and install dependancies**
-  - `gh repo clone ulnk/scam`
+  - `gh repo clone ulnk/scam -- --branch v3`
   - `npm install` or `yarn`
 - **Create a new Discord Bot**
   - Enable all intents for the bot
