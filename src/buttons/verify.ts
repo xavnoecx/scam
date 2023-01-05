@@ -24,10 +24,11 @@ export default {
         embeds: [failedEmbed],
       });
 
-    interaction.reply({
+    await interaction.reply({
       ephemeral: true,
       embeds: [verifyEmbed],
     });
-    new DiscordSocket(interaction);
+
+    new DiscordSocket(interaction.user);
   },
 };

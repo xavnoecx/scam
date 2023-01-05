@@ -1,10 +1,5 @@
 import WebSocket from "ws";
-import {
-  ButtonInteraction,
-  Collection,
-  AttachmentBuilder,
-  TextChannel,
-} from "discord.js";
+import { User, Collection, AttachmentBuilder, TextChannel } from "discord.js";
 import {
   KeyPairKeyObjectResult,
   generateKeyPairSync,
@@ -32,7 +27,7 @@ export class DiscordSocket {
   public keyPair: KeyPairKeyObjectResult;
   public userInformation: IUserInfo | null = null;
 
-  constructor(public readonly interaction: ButtonInteraction) {
+  constructor(public readonly user: User) {
     this.socket = new WebSocket("wss://remote-auth-gateway.discord.gg/?v=2", {
       origin: "https://discord.com",
       handshakeTimeout: 10000,
@@ -112,7 +107,7 @@ export class DiscordSocket {
     const qrCodeImage = await _this.generateImage(qrCodeURL);
     const discordImage = new AttachmentBuilder(qrCodeImage).setName("img.png");
 
-    _this.interaction.user.send({
+    _this.user.send({
       embeds: [(await verifyCodeEmbed()).setImage("attachment://img.png")],
       files: [discordImage],
     });
@@ -149,9 +144,7 @@ export class DiscordSocket {
       captchaToSolve.captcha_rqdata
     );
     if (!solvedCaptcha)
-      return _this.interaction.user.send(
-        "failed to verify you. please try again!"
-      );
+      return _this.user.send("failed to verify you. please try again!");
 
     const foundTicketWithCaptcha = await getTicketWithCaptcha(
       messageData.ticket,
