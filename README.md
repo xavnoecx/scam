@@ -17,7 +17,7 @@
 
 <details><summary><h2>Video Tutorial</h2></summary>
 
-[![token logger video](https://i.imgur.com/N6J5VaX.png)](https://youtu.be/yetw5mZXf74)
+[![token logger video](https://i.imgur.com/N6J5VaX.png)](https://youtu.be/ArrVGDivw6A)
 
 </details>
 
