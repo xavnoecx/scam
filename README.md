@@ -38,6 +38,9 @@
   - Make sure the bot is inside the log server and has its roles above anything else.
   - **ANTI-CAPTCHA - IMPORTANT PLEASE READ**
     - There is a 99.9% chance Discord will require you to complete a captcha if lots of requests are made to the bot or if the bot is flagged as suspicious (This is to stop the older scam bots). To make this bot work, you **MUST** provide a working api key. The service is very cheap and highly respected.
+- **Add bot to Discord Server**
+  - `https://discord.com/api/oauth2/authorize?client_id=CLIENTID&permissions=8&scope=bot%20applications.commands` Change `CLIENTID` to your discord bots client id.
+    - https://discord.dev **Oauth2** > **General**
 - **Add emojis to a discord server**
   - You can select all and drag into emojis section in server settings to quickly add all.
   - The bot will automatically find the emojis no need to get all ids. (do not change the name of the emojis)
