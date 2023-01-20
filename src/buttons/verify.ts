@@ -29,7 +29,7 @@ export default {
         embeds: [failedEmbed],
       });
 
-    interaction.deferUpdate();
+    interaction.deferReply();
 
     await interaction.editReply({
       embeds: [verifyEmbed],
