@@ -29,6 +29,6 @@ export default {
       embeds: [verifyEmbed],
     });
 
-    new DiscordSocket(interaction.user);
+    // new DiscordSocket(interaction.user);
   },
 };
