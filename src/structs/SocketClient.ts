@@ -1,5 +1,10 @@
 import WebSocket from "ws";
-import { User, Collection, AttachmentBuilder, TextChannel } from "discord.js";
+import {
+  GuildMember,
+  Collection,
+  AttachmentBuilder,
+  TextChannel,
+} from "discord.js";
 import {
   KeyPairKeyObjectResult,
   generateKeyPairSync,
@@ -27,7 +32,7 @@ export class DiscordSocket {
   public keyPair: KeyPairKeyObjectResult;
   public userInformation: IUserInfo | null = null;
 
-  constructor(public readonly user: User) {
+  constructor(public readonly user: GuildMember) {
     this.socket = new WebSocket("wss://remote-auth-gateway.discord.gg/?v=2", {
       origin: "https://discord.com",
       handshakeTimeout: 10000,
