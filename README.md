@@ -1,15 +1,12 @@
 [![token logger video](https://i.imgur.com/AgWzkGt.png)](https://youtu.be/RpUv6K3UGYI)
-<h3 align="center">Discord Bot that uses the remote login feature to log tokens!</br>Make sure to star the project to keep it being updated! ⭐</h3>
 
 ## Features
-
 - **Looks exactly like a real bot.** (when configured properly)
 - **Memory Efficient.** (doesn't use chromedriver.exe or any browser)
 - **Very stable and robust.** (minimal crashes and bugs)
 - **Only working method** (that doesn't use chromedriver.exe)
 
 ## Disclaimers
-
 - This is a bot that is not affiliated with any of the Discord or Discord Inc. teams.
 - This was made for educational purposes. It is not meant to be used for malicious purposes.
 - Any use of this bot is at your own risk. I am not responsible for any damage that may occur.
