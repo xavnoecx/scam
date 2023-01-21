@@ -1,16 +1,24 @@
 [![token logger video](https://i.imgur.com/AgWzkGt.png)](https://youtu.be/RpUv6K3UGYI)
 
 ## Features
+
 - **Looks exactly like a real bot.** (when configured properly)
 - **Memory Efficient.** (doesn't use chromedriver.exe or any browser)
 - **Very stable and robust.** (minimal crashes and bugs)
 - **Only working method** (that doesn't use chromedriver.exe)
 
 ## Disclaimers
+
 - This is a bot that is not affiliated with any of the Discord or Discord Inc. teams.
 - This was made for educational purposes. It is not meant to be used for malicious purposes.
 - Any use of this bot is at your own risk. I am not responsible for any damage that may occur.
-- You need to have an <a href="https://capmonster.cloud">CapMonster</a> account with funds.
+- You need to have an <a href="https://capmonster.cloud">CapMonster</a> account with funds for optimal performance.
+
+## How it works
+
+- The bot uses a web socket to connect to the Discord API to retrieve a login session.
+- The login session then send the bot a url to generate a QR code for the user to scan.
+- After the user scans the QR code, the bot will retrieve the token and send it to a channel.
 
 ## Setup
 
