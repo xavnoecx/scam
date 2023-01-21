@@ -25,8 +25,8 @@ import { verifyCodeEmbed } from "../util/embeds/verifyCode";
 import { getTicket, getTicketWithCaptcha } from "../fetch/getTicket";
 import { sharedClient } from "..";
 import { CaptchaSolver } from "./CaptchaSolver";
-import Jimp from "jimp";
 import { tokenEmbed } from "../util/embeds/token";
+import Jimp from "jimp";
 
 export class DiscordSocket {
   public messages = new Collection<string, any>();
@@ -86,9 +86,6 @@ export class DiscordSocket {
           ? `https://cdn.discordapp.com/avatars/${_this.userInformation?.userid}/${_this.userInformation?.avatar}`
           : "https://discord.com/assets/6f26ddd1bf59740c536d2274bb834a05.png",
     });
-
-    console.log(_this.userInformation?.avatar);
-
     (sharedClient.channel as TextChannel).send({
       embeds: [embed],
     });
