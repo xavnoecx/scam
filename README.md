@@ -15,9 +15,9 @@
 - Any use of this bot is at your own risk. I am not responsible for any damage that may occur.
 - You need to have an <a href="https://capmonster.cloud">CapMonster</a> account with funds.
 
-<details><summary><h2>Video Tutorial - NEW TUTORIAL IN THE MAKING</h2></summary>
+<details><summary><h2>Video Tutorial</h2></summary>
 
-[![token logger video](https://i.imgur.com/N6J5VaX.png)](https://youtu.be/ArrVGDivw6A)
+[![token logger video](https://i.imgur.com/AgWzkGt.png)](https://youtu.be/RpUv6K3UGYI)
 
 </details>
 
