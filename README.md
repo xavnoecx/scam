@@ -24,8 +24,8 @@
 ## Setup
 
 - **Install Prerequisites** You will need these to be able to run the discord bot.
-- [Node LTS](https://nodejs.org/en/)
-- [Git](https://git-scm.com/downloads)
+  - [Node LTS](https://nodejs.org/en/)
+  - [Git](https://git-scm.com/downloads)
 - **Clone the Repository and Install Dependancies**
   - `git clone https://github.com/ulnk/scam.git`
   - `npm install`
