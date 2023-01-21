@@ -5,11 +5,13 @@
   "author": "ulnk <ulnk@skid.today>",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/index.ts --trace-warnings"
+    "start": "ts-node src/index.ts --trace-warnings",
+    "dev": "nodemon src/index.ts --exec ts-node --trace-warnings"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",
     "@types/node-fetch": "2",
+    "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.3"
   },

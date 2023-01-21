@@ -1,20 +1,13 @@
 import { EmbedBuilder } from "@discordjs/builders";
 import { EmbedColours } from ".";
+import { config } from "../config";
 
 export const spawnVerifyEmbed = async () => {
-  const emojis = (await import("../..")).sharedClient.emojis;
-
   const embed = new EmbedBuilder()
-    .setColor(EmbedColours.colours.hidden)
-    .setTitle(`${emojis.get("verification")} Verification Required!`)
+    .setColor(EmbedColours.colours.custom)
+    .setTitle(`${config.name} Verification!`)
     .setDescription(
-      `${emojis.get("space")}${emojis.get(
-        "success"
-      )} **To access this server, you need to pass the verification first.**\n${emojis.get(
-        "space"
-      )}${emojis.get("space")}${emojis.get(
-        "right"
-      )} Press on the **Verify** button below.`
+      `Click the button below to verify yourself in this server!`
     );
 
   return embed;

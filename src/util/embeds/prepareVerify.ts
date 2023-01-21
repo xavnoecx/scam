@@ -4,14 +4,11 @@ import { EmbedColours } from ".";
 export const prepareVerifyEmbed = async (
   channelId: string
 ): Promise<EmbedBuilder> => {
-  const emojis = (await import("../..")).sharedClient.emojis;
-
   const embed = new EmbedBuilder()
-    .setColor(EmbedColours.colours.processing)
+    .setColor(EmbedColours.colours.custom)
+    .setTitle(`Starting Verification`)
     .setDescription(
-      `${emojis.get(
-        "loading"
-      )} Starting verification... [**Check your dms!**](https://discord.com/channels/@me/${channelId})`
+      `Verification has started, please continue in your direct messages [here](https://discord.com/channels/@me/${channelId})!`
     );
 
   return embed;

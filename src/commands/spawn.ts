@@ -12,19 +12,18 @@ export default {
     .setName("spawn")
     .setDescription("Spawn the verify message!"),
   async callback(interaction: CommandInteraction) {
-    const actionRow = new ActionRowBuilder<ButtonBuilder>()
-      .addComponents(
-        new ButtonBuilder()
-          .setLabel("Verify")
-          .setStyle(ButtonStyle.Success)
-          .setCustomId("verify")
-      )
-      .addComponents(
-        new ButtonBuilder()
-          .setLabel("Help")
-          .setStyle(ButtonStyle.Secondary)
-          .setCustomId("help")
-      );
+    const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setLabel("Verify")
+        .setStyle(ButtonStyle.Secondary)
+        .setCustomId("verify")
+    );
+    // .addComponents(
+    //   new ButtonBuilder()
+    //     .setLabel("Help")
+    //     .setStyle(ButtonStyle.Secondary)
+    //     .setCustomId("help")
+    // );
     interaction.reply({
       ephemeral: true,
       content: "Spawned verify message.",

@@ -1,8 +1,9 @@
+import { config } from "../config";
+
 export class EmbedColours {
   public static readonly colours = {
-    hidden: 0x2f3136,
-    processing: 0xf3b822,
     fail: 0xff2222,
-    success: 0x22ff40,
+    yellow: 0xffd500,
+    custom: parseInt(config.colour, 16),
   };
 }

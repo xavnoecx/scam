@@ -1,4 +1,4 @@
-import { BotClient } from "./structs/BotClient";
+import { BotClient } from "./structs/BotClass";
 import { Client, GatewayIntentBits } from "discord.js";
 
 export const sharedClient = new BotClient(

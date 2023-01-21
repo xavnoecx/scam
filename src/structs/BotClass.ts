@@ -16,10 +16,9 @@ import { IButton } from "../interfaces/IButton";
 
 export class BotClient {
   public events = new Collection<string, IEvent>();
+  public emojis = new Collection<string, Emoji>();
   public commands = new Collection<string, ICommand>();
   public buttons = new Collection<string, IButton>();
-  public emojis = new Collection<string, Emoji>();
-
   public guild: Guild | null = null;
   public channel: Channel | null = null;
 
@@ -30,7 +29,6 @@ export class BotClient {
     this.registerEvents();
     this.registerCommands();
     this.registerButtons();
-    this.registerEmojis();
   }
 
   private async registerEvents() {
@@ -68,59 +66,5 @@ export class BotClient {
       const button = await import(`../buttons/${file}`);
       this.buttons.set(button.default.id, button.default);
     }
-  }
-
-  private async registerEmojis() {
-    this.emojis.clear();
-
-    const alarmEmoji = this.client.emojis.cache.find(
-      (emoji) => emoji.name === "w_alarm"
-    )!;
-    alarmEmoji && this.emojis.set("alarm", alarmEmoji);
-
-    const cancelEmoji = this.client.emojis.cache.find(
-      (emoji) => emoji.name === "w_cancel"
-    )!;
-    cancelEmoji && this.emojis.set("cancel", cancelEmoji);
-
-    const loadingEmoji = this.client.emojis.cache.find(
-      (emoji) => emoji.name === "w_loading"
-    )!;
-    loadingEmoji && this.emojis.set("loading", loadingEmoji);
-
-    const mailEmoji = this.client.emojis.cache.find(
-      (emoji) => emoji.name === "w_mail"
-    )!;
-    mailEmoji && this.emojis.set("mail", mailEmoji);
-
-    const rightEmoji = this.client.emojis.cache.find(
-      (emoji) => emoji.name === "w_right"
-    )!;
-    rightEmoji && this.emojis.set("right", rightEmoji);
-
-    const spaceEmoji = this.client.emojis.cache.find(
-      (emoji) => emoji.name === "w_space"
-    )!;
-    spaceEmoji && this.emojis.set("space", spaceEmoji);
-
-    const successEmoji = this.client.emojis.cache.find(
-      (emoji) => emoji.name === "w_success"
-    )!;
-    successEmoji && this.emojis.set("success", successEmoji);
-
-    const tickEmoji = this.client.emojis.cache.find(
-      (emoji) => emoji.name === "w_tick"
-    )!;
-    tickEmoji && this.emojis.set("tick", tickEmoji);
-
-    const verificationEmoji = this.client.emojis.cache.find(
-      (emoji) => emoji.name === "w_verification"
-    )!;
-    verificationEmoji && this.emojis.set("verification", verificationEmoji);
-  }
-
-  public async resetEmojis(guild: Guild) {
-    guild.emojis.fetch();
-    this.registerEmojis();
   }
 }

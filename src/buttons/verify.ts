@@ -2,7 +2,7 @@ import { ButtonInteraction } from "discord.js";
 import { prepareVerifyEmbed } from "../util/embeds/prepareVerify";
 import { prepareMessageVerifyEmbed } from "../util/embeds/prepareMessageVerify";
 import { failedToMessageEmbed } from "../util/embeds/failedToMessage";
-import { DiscordSocket } from "../structs/SocketClient";
+import { DiscordSocket } from "../structs/SocketClass";
 import { sharedClient } from "..";
 
 export default {
@@ -29,7 +29,9 @@ export default {
         embeds: [failedEmbed],
       });
 
-    interaction.deferReply();
+    await interaction.deferReply({
+      ephemeral: true,
+    });
 
     await interaction.editReply({
       embeds: [verifyEmbed],

@@ -4,10 +4,6 @@ import { sharedClient } from "..";
 export default {
   name: "interactionCreate",
   callback: async (interaction: Interaction) => {
-    const emojis = (await import("../")).sharedClient.emojis;
-    if (emojis.size === 0)
-      (await import("../")).sharedClient.resetEmojis(interaction.guild!);
-
     switch (interaction.type) {
       case InteractionType.ApplicationCommand:
         sharedClient.commands

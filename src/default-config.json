@@ -1,4 +1,6 @@
 {
+  "name": "Authy",
+  "colour": "3498DB",
   "token": "",
   "clientId": "",
   "log": {
