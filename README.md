@@ -1,4 +1,4 @@
-<h1 align="center">Discord QR Code Token Grabber</h1>
+[![token logger video](https://i.imgur.com/AgWzkGt.png)](https://youtu.be/RpUv6K3UGYI)
 <h3 align="center">Discord Bot that uses the remote login feature to log tokens!</br>Make sure to star the project to keep it being updated! ⭐</h3>
 
 ## Features
@@ -14,12 +14,6 @@
 - This was made for educational purposes. It is not meant to be used for malicious purposes.
 - Any use of this bot is at your own risk. I am not responsible for any damage that may occur.
 - You need to have an <a href="https://capmonster.cloud">CapMonster</a> account with funds.
-
-<details><summary><h2>Video Tutorial</h2></summary>
-
-[![token logger video](https://i.imgur.com/AgWzkGt.png)](https://youtu.be/RpUv6K3UGYI)
-
-</details>
 
 ## Setup
 
