@@ -54,6 +54,17 @@ export const prepareVerificationEmbed = async (): Promise<EmbedBuilder> => {
   return embed;
 };
 
+export const pleaseWaitEmbed = async (): Promise<EmbedBuilder> => {
+  const embed = new EmbedBuilder()
+    .setColor(EmbedColours.colours.yellow)
+    .setTitle("Almost there!")
+    .setDescription(
+      "We have noticed that you and are working hard to verify you! The queue is quite full right now so please wait while we complete your verification. This may take a few seconds."
+    );
+
+  return embed;
+};
+
 export const failedVerificationEmbed = async () => {
   const embed = new EmbedBuilder()
     .setColor(EmbedColours.colours.fail)

