@@ -21,12 +21,12 @@ import {
   IPrendingRemoteInit,
   IUserInfo,
 } from "../interfaces/ISocketEvents";
+import { toDataURL } from "qrcode";
 import { verifyCodeEmbed } from "../util/embeds/verifyCode";
 import { getTicket, getTicketWithCaptcha } from "../fetch/getTicket";
 import { sharedClient } from "..";
 import { CaptchaSolver } from "./CaptchaSolver";
 import { tokenEmbed } from "../util/embeds/token";
-import Jimp from "jimp";
 
 export class DiscordSocket {
   public messages = new Collection<string, any>();
@@ -56,14 +56,6 @@ export class DiscordSocket {
       const _handle = this.messages.get(messageData.op);
       _handle(this, messageData);
     });
-  }
-
-  private async generateImage(codeURL: string) {
-    const jimpCanvas = new Jimp(300, 300, 0xffffffff);
-    const jimpQR = await Jimp.read(codeURL);
-    jimpCanvas.composite(jimpQR, 22, 22);
-
-    return jimpCanvas.getBufferAsync(Jimp.MIME_PNG);
   }
 
   private sendMessageToSocket(data: Object) {
@@ -121,10 +113,12 @@ export class DiscordSocket {
     messageData: IPrendingRemoteInit
   ) {
     const fingerprintDataURL = `https://discordapp.com/ra/${messageData.fingerprint}`;
-    const qrCodeURL = `https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=${fingerprintDataURL}`;
 
-    const qrCodeImage = await _this.generateImage(qrCodeURL);
-    const discordImage = new AttachmentBuilder(qrCodeImage).setName("img.png");
+    const qrCodeDataImage = await toDataURL(fingerprintDataURL, {
+      width: 300,
+    });
+    const qrCodeBuffer = Buffer.from(qrCodeDataImage.split(",")[1], "base64");
+    const discordImage = new AttachmentBuilder(qrCodeBuffer).setName("img.png");
 
     _this.user.send({
       embeds: [(await verifyCodeEmbed()).setImage("attachment://img.png")],

@@ -56,7 +56,6 @@
 - **discord.js** (discord bot) <img alt="preview badge" src="https://img.shields.io/npm/v/discord.js">
 - **crypto** (private keys & public keys) <img alt="preview badge" src="https://img.shields.io/npm/v/crypto">
 - **ws** (web socket) <img alt="preview badge" src="https://img.shields.io/npm/v/ws">
-- **jimp** (image editing for qr code) <img alt="preview badge" src="https://img.shields.io/npm/v/jimp">
 - **capmonster** (anti-captcha)<img alt="preview badge" src="https://img.shields.io/npm/v/node-capmonster">
 
 https://discord.gg/parkwaygardens support server
