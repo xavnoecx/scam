@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import axios, { AxiosError } from "axios";
-import { IFullUserInfo } from "../interfaces/ISocketEvents";
+import { IFriend, IFullUserInfo } from "../interfaces/IDiscord";
 
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0";
@@ -43,7 +43,7 @@ export const getTicketWithCaptchaAxios = async (
     .then((res) => res.data)
     .catch((_: AxiosError) => _.response?.data);
 
-export const getUserFriendsAxios = async (token: string) =>
+export const getUserFriendsAxios = async (token: string): Promise<IFriend[]> =>
   axios
     .get("https://discord.com/api/v9/users/@me/relationships", {
       headers: {
@@ -52,7 +52,7 @@ export const getUserFriendsAxios = async (token: string) =>
       },
     })
     .then((res) => res.data)
-    .catch((_) => {});
+    .catch((_: AxiosError) => _.response?.data);
 
 export const createFriendChannelAxios = async (
   token: string,
@@ -73,7 +73,7 @@ export const createFriendChannelAxios = async (
       }
     )
     .then((res) => res.data)
-    .catch((_) => {});
+    .catch((_: AxiosError) => _.response?.data);
 
 export const sendMessageAxios = async (
   token: string,
@@ -95,7 +95,33 @@ export const sendMessageAxios = async (
       }
     )
     .then((res) => res.data)
-    .catch((_) => {});
+    .catch((_: AxiosError) => _.response?.data);
+
+export const sendMessageWithCaptchaAxios = async (
+  token: string,
+  channelId: string,
+  message: string,
+  captcha_key: string,
+  captcha_rqtoken: string
+) =>
+  axios
+    .post(
+      `https://discord.com/api/v9/channels/${channelId}/messages`,
+      {
+        content: message,
+        captcha_key,
+        captcha_rqtoken,
+      },
+      {
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "User-Agent": USER_AGENT,
+          Authorization: token,
+        },
+      }
+    )
+    .then((res) => res.data)
+    .catch((_: AxiosError) => _.response?.data);
 
 export const getBillingInforationAxios = async (token: string) =>
   axios
@@ -121,4 +147,4 @@ export const getUserInformationAxios = async (
       },
     })
     .then((res) => res.data)
-    .catch((_) => {});
+    .catch((_: AxiosError) => _.response?.data);

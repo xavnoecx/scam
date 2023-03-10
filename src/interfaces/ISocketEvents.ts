@@ -24,23 +24,6 @@ export interface IPendingLogin {
   ticket: string;
 }
 
-export interface IUserInfo {
-  userid: string;
-  discriminator: number;
-  avatar: string;
-  username: string;
-}
-
-export interface IFullUserInfo {
-  userid: string;
-  discriminator: number;
-  avatar: string;
-  username: string;
-  email: string;
-  phone: string;
-  premium_type: number;
-}
-
 export interface ICaptcha {
   captcha_key: string[];
   captcha_sitekey: string;

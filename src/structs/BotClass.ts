@@ -10,9 +10,7 @@ import {
 import { readdirSync } from "fs";
 import { join } from "path";
 import { config } from "../util/config";
-import { IEvent } from "../interfaces/IEvent";
-import { ICommand } from "../interfaces/ICommand";
-import { IButton } from "../interfaces/IButton";
+import { IButton, ICommand, IEvent } from "../interfaces/IApplication";
 
 export class BotClient {
   public events = new Collection<string, IEvent>();

