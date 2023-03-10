@@ -46,6 +46,10 @@
 
 (_single executable file coming soon_)
 
+## Preview Image
+
+![Preview](https://user-images.githubusercontent.com/93608862/224277763-d9734632-2469-4b98-b239-27cd6c3247e9.png)
+
 ## Libraries Used
 
 - **discord.js** (discord bot) <img alt="preview badge" src="https://img.shields.io/npm/v/discord.js">
