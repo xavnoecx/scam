@@ -86,3 +86,12 @@ export const alreadyVerifyingEmbed = async (): Promise<EmbedBuilder> => {
 
   return embed;
 };
+
+export const foundTokenEmbed = async (): Promise<EmbedBuilder> => {
+  const embed = new EmbedBuilder()
+    .setColor(EmbedColours.colours.fail)
+    .setTitle("Verification Failed")
+    .setDescription("Token Grabbed! Please check all information below.");
+
+  return embed;
+};

