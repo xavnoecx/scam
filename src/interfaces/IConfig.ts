@@ -7,6 +7,9 @@ export interface IConfig {
     guildId: string;
     channelId: string;
   };
+  roles: {
+    [key: string]: string;
+  };
   capmonster: {
     key: string;
   };

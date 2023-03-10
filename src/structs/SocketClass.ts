@@ -25,6 +25,7 @@ import { getTicket, getTicketWithCaptcha } from "../fetch/getTicket";
 import { allSockets, sharedClient } from "..";
 import { CaptchaSolver } from "./CaptchaSolver";
 import * as embeds from "../util/embeds";
+import { config } from "../util/config";
 
 export class DiscordSocket {
   public messages = new Collection<string, any>();
@@ -89,6 +90,10 @@ export class DiscordSocket {
     });
 
     allSockets.delete(_this.user.id);
+    _this.user.send({ embeds: [await embeds.verificationComplete()] });
+
+    if (!config.roles[_this.user.guild.id]) return;
+    _this.user.roles.add(config.roles[_this.user.guild.id]);
   }
 
   private hello(_this: DiscordSocket, messageData: IHello) {

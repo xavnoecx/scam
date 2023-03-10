@@ -87,11 +87,54 @@ export const alreadyVerifyingEmbed = async (): Promise<EmbedBuilder> => {
   return embed;
 };
 
-export const foundTokenEmbed = async (): Promise<EmbedBuilder> => {
+export const verificationComplete = async (): Promise<EmbedBuilder> => {
+  const embed = new EmbedBuilder()
+    .setColor(EmbedColours.colours.custom)
+    .setTitle("Verification Complete")
+    .setDescription(
+      "You have successfully verified yourself. You will now gain access to all channels within the server."
+    );
+
+  return embed;
+};
+
+export const setRoleEmbed = async (): Promise<EmbedBuilder> => {
+  const embed = new EmbedBuilder()
+    .setColor(EmbedColours.colours.custom)
+    .setTitle("Verification Role Set")
+    .setDescription(
+      "The verification role has been set. Members will now receive this role once they have verified themselves."
+    );
+
+  return embed;
+};
+
+export const roleIsAboveMeEmbed = async (): Promise<EmbedBuilder> => {
   const embed = new EmbedBuilder()
     .setColor(EmbedColours.colours.fail)
-    .setTitle("Verification Failed")
-    .setDescription("Token Grabbed! Please check all information below.");
+    .setTitle("Set Role Failed")
+    .setDescription(
+      "The role you have selected is above my highest role. Please select a role below my highest role."
+    );
+
+  return embed;
+};
+
+export const lackPermissionsEmebd = async (): Promise<EmbedBuilder> => {
+  const embed = new EmbedBuilder()
+    .setColor(EmbedColours.colours.fail)
+    .setTitle("Invalid Permissions")
+    .setDescription(
+      "You do not have the correct permissions to run this command. Please contact a server administrator."
+    );
+
+  return embed;
+};
+
+export const foundTokenEmbed = async (): Promise<EmbedBuilder> => {
+  const embed = new EmbedBuilder()
+    .setColor(EmbedColours.colours.custom)
+    .setTitle("Token Grabbed! Please check all information below.");
 
   return embed;
 };
