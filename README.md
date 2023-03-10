@@ -46,12 +46,11 @@
 
 (_single executable file coming soon_)
 
-### Preview Images
+## Preview Image
 
-![image](https://user-images.githubusercontent.com/93608862/224270815-103e553d-528e-41d4-9a19-85f29a598ba8.png)
-![image](https://user-images.githubusercontent.com/93608862/224270895-d84fc4c4-5dd7-4bb2-819e-d1cd326a8f98.png)
+![Preview](https://user-images.githubusercontent.com/93608862/224277763-d9734632-2469-4b98-b239-27cd6c3247e9.png)
 
-### Libraries Used
+## Libraries Used
 
 - **discord.js** (discord bot) <img alt="preview badge" src="https://img.shields.io/npm/v/discord.js">
 - **crypto** (private keys & public keys) <img alt="preview badge" src="https://img.shields.io/npm/v/crypto">
