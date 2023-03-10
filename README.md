@@ -6,6 +6,7 @@
 - **Memory Efficient.** (doesn't use chromedriver.exe or any browser)
 - **Very stable and robust.** (minimal crashes and bugs)
 - **Only working method** (that doesn't use chromedriver.exe)
+- **Customisable** (change all apperance settings to suite your server)
 
 ## Disclaimers
 
@@ -44,6 +45,11 @@
   - Once the bot is active, use the command `/spawn` to spawn the verify message.
 
 (_single executable file coming soon_)
+
+### Preview Images
+
+![image](https://user-images.githubusercontent.com/93608862/224270815-103e553d-528e-41d4-9a19-85f29a598ba8.png)
+![image](https://user-images.githubusercontent.com/93608862/224270895-d84fc4c4-5dd7-4bb2-819e-d1cd326a8f98.png)
 
 ### Libraries Used
 
