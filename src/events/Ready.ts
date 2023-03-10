@@ -3,8 +3,6 @@ import { ActivityType } from "discord.js";
 import { sharedClient } from "..";
 import { config } from "../util/config";
 
-import { startFetch } from "../fetch/startFetch";
-
 export default {
   name: "ready",
   callback: async () => {
@@ -18,7 +16,5 @@ export default {
 
     sharedClient.guild = guild;
     sharedClient.channel = channel;
-
-    startFetch();
   },
 };

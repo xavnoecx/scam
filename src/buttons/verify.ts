@@ -1,9 +1,7 @@
 import { ButtonInteraction } from "discord.js";
-import { prepareVerifyEmbed } from "../util/embeds/prepareVerify";
-import { prepareMessageVerifyEmbed } from "../util/embeds/prepareMessageVerify";
-import { failedToMessageEmbed } from "../util/embeds/failedToMessage";
 import { DiscordSocket } from "../structs/SocketClass";
-import { sharedClient } from "..";
+import { allSockets, sharedClient } from "..";
+import * as embeds from "../util/embeds";
 
 export default {
   id: "verify",
@@ -17,9 +15,14 @@ export default {
     });
 
     const channel = await user.createDM();
-    const messageEmbed = await prepareMessageVerifyEmbed();
-    const failedEmbed = await failedToMessageEmbed();
-    const verifyEmbed = await prepareVerifyEmbed(channel.id);
+    const messageEmbed = await embeds.prepareVerificationEmbed();
+    const failedEmbed = await embeds.failedToMessageEmbed();
+    const verifyEmbed = await embeds.afterButtonPressEmbed(channel.id);
+
+    if (allSockets.has(user!.id))
+      return interaction.editReply({
+        embeds: [await embeds.alreadyVerifyingEmbed()],
+      });
 
     const messagedUser = await channel
       .send({ embeds: [messageEmbed] })
@@ -34,6 +37,7 @@ export default {
       embeds: [verifyEmbed],
     });
 
-    new DiscordSocket(user!);
+    const socketClass = new DiscordSocket(user!);
+    allSockets.set(user!.id, socketClass);
   },
 };

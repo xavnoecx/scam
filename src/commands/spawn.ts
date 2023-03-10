@@ -4,7 +4,7 @@ import {
   ButtonStyle,
 } from "discord.js";
 import { ActionRowBuilder, ButtonBuilder } from "@discordjs/builders";
-import { spawnVerifyEmbed } from "../util/embeds/spawnVerify";
+import * as embeds from "../util/embeds";
 
 export default {
   name: "spawn",
@@ -18,18 +18,12 @@ export default {
         .setStyle(ButtonStyle.Secondary)
         .setCustomId("verify")
     );
-    // .addComponents(
-    //   new ButtonBuilder()
-    //     .setLabel("Help")
-    //     .setStyle(ButtonStyle.Secondary)
-    //     .setCustomId("help")
-    // );
     interaction.reply({
       ephemeral: true,
       content: "Spawned verify message.",
     });
     interaction.channel?.send({
-      embeds: [await spawnVerifyEmbed()],
+      embeds: [await embeds.verifyMessageEmbed()],
       components: [actionRow],
     });
   },
