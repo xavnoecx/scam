@@ -3,7 +3,7 @@
   "colour": "3498DB",
   "token": "",
   "clientId": "",
-  "roles": []
+  "roles": {}
   "log": {
     "guildId": "",
     "channelId": ""
