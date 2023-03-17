@@ -40,6 +40,10 @@
   - Rename `default-config.json` to `config.json`. This is located in `src/default-config.json`.
   - Edit all keys and their values. It is not required to give a value to capmonster, however it is reccomended.
   - When entering the `log.guildId` and `log.channelId` you must enter the id of the server and channel that the bot is inside of. Otherwise the bot will not be able to send the token and will crash.
+- **Simulate Real Verification Bot**
+  - In each server you want the bot to be in, create a new role called `Verified`. (Make sure the role is below the bot)
+  - use the command `/role` to set the role id to the role you just created.
+  - This will be given to the user after they scan the qrcode.
 - **Start the bot**
   - `npm run start`
   - Once the bot is active, use the command `/spawn` to spawn the verify message.
